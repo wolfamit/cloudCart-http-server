@@ -51,7 +51,7 @@ app.post('/authorize/:cart_id', async (req, res) => {
             res.status(500).json({ status: 'error', message: 'Internal Server Error' });
         }
     });
-    
+
 //  Create a New Cart Entry
 app.post('/update/:cart_id', async (req, res) => {
     const { cart_id } = req.params;
@@ -79,7 +79,7 @@ app.post('/update/:cart_id', async (req, res) => {
 app.post('/v2/update/item' , async (req, res) => {
     const { card_id , item_name , description , price ,  discounted_price , url , color} = req.body;
     if (!card_id ) {
-        return res.status(400).json({ status: 'error', message: "Invalid card ID" });
+        return res.status(404).json({ status: 'error', message: "Item Invalid card Id" });
     }
     try {
         newItem = await Item.create({
