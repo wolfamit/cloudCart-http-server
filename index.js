@@ -163,6 +163,17 @@ app.post('/getItems/:id', async (req, res) => {
     }
 });
 
+app.post('/removeItems/:itemId' , async (req ,res) => {
+    try {
+        const {itemId} = req.params;
+        const virtualItems = await VirtualItems.findOneAndDelete(itemId); 
+        return res.status(200).send({success : true , virtualItems});
+    } catch (error) {
+        console.error("Error removing cart items:", error);
+        return res.status(500).send({ success: false, message: "Server Error", error });
+    }
+})
+
 connectDB();
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
