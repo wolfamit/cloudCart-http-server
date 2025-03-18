@@ -125,27 +125,43 @@ app.post('/v2/pushToVirtual' , async (req, res) => {
     }
 });
 
-app.post('/getItems/:id' , async (req , res) => {
+app.post('/getItems/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        if(!id){
+
+        if (!id) {
             return res.status(404).send({ success: false, message: "Id not found" });
         }
+
+        // Check if the cart exists
         const cart = await Cart.findOne({ cartID: id });
         if (!cart) {
             return res.status(404).send({ success: false, message: "Cart not found" });
         }
-        const items = await VirtualItems.findOne({ cartId: id });
-        if (!items || items.length === 0) {
+
+        // Fetch all matching items in the VirtualItems collection
+        const virtualItems = await VirtualItems.find({ cartId: id }); // Change findOne → find
+
+        if (!virtualItems || virtualItems.length === 0) {
             return res.status(404).send({ success: false, message: "No items found" });
         }
-        const item = await Item.findOne({card_id : items.cardId})
-        return res.status(200).send({ success: true, item });
+
+        // Fetch details of each item based on `cardId`
+        const items = await Promise.all(
+            virtualItems.map(async (vItem) => {
+                return await Item.findOne({ card_id: vItem.cardId });
+            })
+        );
+
+        // Filter out any null values (in case some card IDs don’t match any items)
+        const validItems = items.filter(item => item !== null);
+
+        return res.status(200).send({ success: true, items: validItems });
     } catch (error) {
-        console.log(error)
-        return res.status(500).send({success : false , message : "Server Error" , error : error});
+        console.error("Error fetching cart items:", error);
+        return res.status(500).send({ success: false, message: "Server Error", error });
     }
-})
+});
 
 connectDB();
 const PORT = process.env.PORT || 3000;
