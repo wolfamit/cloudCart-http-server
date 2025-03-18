@@ -94,7 +94,7 @@ app.post('/v2/update/item' , async (req, res) => {
             size: "L",
             color: color || "Blue"
         });
-        return res.status(200).json({ status: 'success', message: "Success", newItem });
+        return res.status(200).json({ status: 'success', newItem });
     } catch (error) {
         console.error("Error creating cart:", error);
         res.status(500).json({ status: error, message: 'Internal Server Error' });
@@ -109,6 +109,7 @@ app.post('/v2/pushToVirtual' , async (req, res) => {
     }
     try {
         const item = await Item.findOne({card_id : card_id});
+        
         if(!item){
             return res.status(404).json({ status: 'error', message: 'Item Not Found' });
         }
@@ -117,7 +118,7 @@ app.post('/v2/pushToVirtual' , async (req, res) => {
             cardId : card_id,
         })
         await push.save();
-        return res.status(200).json({ status: 'success', message: "Success", push , item });
+        return res.status(200).json({ status: 'success', push , item });
     } catch (error) {
         console.error("Error creating cart:", error);
         return res.status(500).json({ status: error, message: 'Internal Server Error' });
