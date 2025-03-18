@@ -115,7 +115,6 @@ app.post('/v2/pushToVirtual' , async (req, res) => {
         
         const push = await VirtualItems.create({
             cardId : card_id,
-            cartId : 123456789
         })
         await push.save();
         return res.status(200).json({ status: 'success', message: "Success", push , item });
