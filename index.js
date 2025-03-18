@@ -22,7 +22,7 @@ app.post('/authorize/:cart_id', async (req, res) => {
         const { cell, customerName } = req.body;
     
         if (!cart_id || !customerName) {
-            return res.status(400).json({ status: 'error', message: 'Missing required fields' });
+            return res.status(400).json({ status:"error", message: 'Missing required fields' });
         }
     
         try {
@@ -48,7 +48,7 @@ app.post('/authorize/:cart_id', async (req, res) => {
             });
         } catch (error) {
             console.error("Error updating cart:", error);
-            res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+            res.status(500).json({ status: error, message: 'Internal Server Error' });
         }
     });
 
@@ -72,7 +72,7 @@ app.post('/update/:cart_id', async (req, res) => {
         });
     } catch (error) {
         console.error("Error creating cart:", error);
-        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+        res.status(500).json({ status: error, message: 'Internal Server Error' });
     }
 });
 
@@ -81,7 +81,7 @@ app.post('/update/:cart_id', async (req, res) => {
 app.post('/v2/update/item' , async (req, res) => {
     const { card_id , item_name , description , price ,  discounted_price , url , color} = req.body;
     if (!card_id ) {
-        return res.status(404).json({ status: 'error', message: "Item Invalid card Id" });
+        return res.status(404).json({ status: "error", message: "Item Invalid card Id" });
     }
     try {
         newItem = await Item.create({
@@ -97,7 +97,7 @@ app.post('/v2/update/item' , async (req, res) => {
         return res.status(200).json({ status: 'success', message: "Success", newItem });
     } catch (error) {
         console.error("Error creating cart:", error);
-        res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+        res.status(500).json({ status: error, message: 'Internal Server Error' });
     }
 });
 
@@ -121,7 +121,7 @@ app.post('/v2/pushToVirtual' , async (req, res) => {
         return res.status(200).json({ status: 'success', message: "Success", push , item });
     } catch (error) {
         console.error("Error creating cart:", error);
-        return res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+        return res.status(500).json({ status: error, message: 'Internal Server Error' });
     }
 });
 
