@@ -15,7 +15,8 @@ const Cart = mongoose.model('Cart', cartSchema);
 const itemSchema = new mongoose.Schema({
     card_id: {
         type: String,
-        required: true
+        required: true,
+        unique : true,
     },
     item_name: {
         type: String,

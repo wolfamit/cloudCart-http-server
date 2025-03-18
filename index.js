@@ -76,6 +76,8 @@ app.post('/update/:cart_id', async (req, res) => {
     }
 });
 
+
+// add items to the DB 
 app.post('/v2/update/item' , async (req, res) => {
     const { card_id , item_name , description , price ,  discounted_price , url , color} = req.body;
     if (!card_id ) {
@@ -99,6 +101,7 @@ app.post('/v2/update/item' , async (req, res) => {
     }
 });
 
+// push to User's Cart
 app.post('/v2/pushToVirtual' , async (req, res) => {
     const { card_id } = req.body;
     if (!card_id ) {

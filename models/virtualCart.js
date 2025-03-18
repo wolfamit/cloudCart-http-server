@@ -2,7 +2,7 @@
 const mongoose = require("mongoose")
 
 const VirtualCartSchema = new mongoose.Schema({
-  cartId: { type: String, required: true, unique: true },
+  cartId: { type: String, required: true },
   cardId: { type: String, required: true },
   timestamp: { type: Date, default: Date.now }
 });
