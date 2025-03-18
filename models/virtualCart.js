@@ -7,6 +7,6 @@ const VirtualCartSchema = new mongoose.Schema({
 });
 
 // Prevent overwriting the model if already compiled
-const VirtualCart = mongoose.models.VirtualCart || mongoose.model("VirtualCart", VirtualCartSchema);
+const VirtualCart = mongoose.model("VirtualCart", VirtualCartSchema);
 
 module.exports = VirtualCart;

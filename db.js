@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const VirtualCart = require("./models/VirtualCart"); // Adjust path if needed
 require('dotenv').config();
 
 const conn = process.env.MONGO_URL;
